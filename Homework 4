@@ -1,0 +1,98 @@
+#include <iostream>
+#include <windows.h>
+
+bool isSymmetric(int** matrix, int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < i; j++) {
+            if (matrix[i][j] != matrix[j][i]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool areMatricesEqual(int** matrix1, int** matrix2, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix1[i][j] != matrix2[i][j]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+int main() {
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+
+    int size;
+    std::cout << "Введите размер квадратной матрицы: ";
+    std::cin >> size;
+
+    int** matrix = new int* [size];
+    for (int i = 0; i < size; i++) {
+        matrix[i] = new int[size];
+    }
+
+    std::cout << "Введите элементы матрицы:" << std::endl;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::cin >> matrix[i][j];
+        }
+    }
+
+    if (isSymmetric(matrix, size)) {
+        std::cout << "Матрица симметрична относительно главной диагонали." << std::endl;
+    }
+    else {
+        std::cout << "Матрица не симметрична относительно главной диагонали." << std::endl;
+    }
+
+    int rows, cols;
+    std::cout << "Введите количество строк и столбцов для двух матриц: ";
+    std::cin >> rows >> cols;
+
+    int** matrix1 = new int* [rows];
+    int** matrix2 = new int* [rows];
+    for (int i = 0; i < rows; i++) {
+        matrix1[i] = new int[cols];
+        matrix2[i] = new int[cols];
+    }
+
+    std::cout << "Введите элементы первой матрицы:" << std::endl;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            std::cin >> matrix1[i][j];
+        }
+    }
+
+    std::cout << "Введите элементы второй матрицы:" << std::endl;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            std::cin >> matrix2[i][j];
+        }
+    }
+
+    if (areMatricesEqual(matrix1, matrix2, rows, cols)) {
+        std::cout << "Матрицы равны." << std::endl;
+    }
+    else {
+        std::cout << "Матрицы не равны." << std::endl;
+    }
+
+    for (int i = 0; i < size; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+
+    for (int i = 0; i < rows; i++) {
+        delete[] matrix1[i];
+        delete[] matrix2[i];
+    }
+    delete[] matrix1;
+    delete[] matrix2;
+
+    return 0;
+}
