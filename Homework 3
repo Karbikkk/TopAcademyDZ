@@ -1,0 +1,73 @@
+#include <iostream>
+#include <windows.h>
+
+int* mergeArrays(int* arr1, int size1, int* arr2, int size2) {
+    int* result = new int[size1 + size2];
+    for (int i = 0; i < size1; i++) {
+        result[i] = arr1[i];
+    }
+    for (int i = 0; i < size2; i++) {
+        result[size1 + i] = arr2[i];
+    }
+    return result;
+}
+
+int sumArray(int* arr, int size) {
+    int sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+int* arrayWithMaxSum(int* arr1, int size1, int* arr2, int size2) {
+    int sum1 = sumArray(arr1, size1);
+    int sum2 = sumArray(arr2, size2);
+    return (sum1 > sum2) ? arr1 : arr2;
+}
+
+int main() {
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+
+    int size1, size2;
+    std::cout << "Введите размер первого массива: ";
+    std::cin >> size1;
+    std::cout << "Введите размер второго массива: ";
+    std::cin >> size2;
+
+    int* arr1 = new int[size1];
+    int* arr2 = new int[size2];
+
+    std::cout << "Введите элементы первого массива:" << std::endl;
+    for (int i = 0; i < size1; i++) {
+        std::cin >> arr1[i];
+    }
+
+    std::cout << "Введите элементы второго массива:" << std::endl;
+    for (int i = 0; i < size2; i++) {
+        std::cin >> arr2[i];
+    }
+
+    int* mergedArray = mergeArrays(arr1, size1, arr2, size2);
+    std::cout << "Результирующий массив после слияния: ";
+    for (int i = 0; i < size1 + size2; i++) {
+        std::cout << mergedArray[i] << " ";
+    }
+    std::cout << std::endl;
+
+    int* maxSumArray = arrayWithMaxSum(arr1, size1, arr2, size2);
+    std::cout << "Массив с наибольшей суммой элементов: ";
+    int maxSize = (sumArray(arr1, size1) > sumArray(arr2, size2)) ? size1 
+        : size2;
+    for (int i = 0; i < maxSize; i++) {
+        std::cout << maxSumArray[i] << " ";
+    }
+    std::cout << std::endl;
+
+    delete[] arr1;
+    delete[] arr2;
+    delete[] mergedArray;
+
+    return 0;
+}
