@@ -1,0 +1,28 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    srand(time(0));
+
+    string ranks[] = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Валет", "Дама", "Король", "Туз" };
+    string suits[] = { "червей", "бубен", "крести", "пик" };
+
+    for (int i = 0; i < 53; ++i) {
+        cout << "Нажмите Enter, чтобы сдать карту...";
+        cin.get();
+
+        string rank = ranks[rand() % 13];
+        string suit = suits[rand() % 4];
+
+        cout << "Сдана карта: " << rank << " " << suit << "\n";
+    }
+
+    cout << "Нет больше карт.\n";
+
+    return 0;
+}
