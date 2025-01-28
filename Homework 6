@@ -1,0 +1,53 @@
+#include <iostream>
+#include <fstream>
+#include <locale>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    locale::global(locale(""));
+
+    wifstream file(L"input.txt");
+    if (!file.is_open()) {
+        wcerr << L"Ошибка открытия файла." << endl;
+        return 1;
+    }
+
+    int lineCount = 0;
+    wstring line;
+    while (getline(file, line)) lineCount++;
+    wcout << L"Количество строк в файле: " << lineCount << endl;
+
+    file.clear();
+    file.seekg(0);
+    const wchar_t vowels[] = L"аеёиоуыэюяАЕЁИОУЫЭЮЯ";
+    int lineNumber = 1;
+
+    while (getline(file, line)) {
+        int vowelCount = 0;
+        for (wchar_t ch : line) {
+            for (const wchar_t* v = vowels; *v; ++v) {
+                if (ch == *v) {
+                    vowelCount++;
+                    break;
+                }
+            }
+        }
+        wcout << L"Строка " << lineNumber++ << L": " << vowelCount << L" гласных" << endl;
+    }
+    file.close();
+
+    wofstream outFile(L"random_numbers.txt");
+    srand(time(nullptr));
+    for (int i = 0; i < 100; ++i) outFile << rand() % 100 << L" ";
+    outFile.close();
+
+    wifstream srcFile(L"random_numbers.txt", ios::binary);
+    wofstream destFile(L"copied_numbers.txt", ios::binary);
+    destFile << srcFile.rdbuf();
+    wcout << L"Файл создан и скопирован успешно." << endl;
+
+    return 0;
+}
